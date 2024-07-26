@@ -98,7 +98,8 @@ export default function Home() {
                 <div className={'title-area'}>
                     <p>만든 사람: react_developer [글놀이반 화이팅]</p>
                     <p>만든 이유: 운정초 2학년 여름방학 숙제가 구구단 외우기라서</p>
-                    <p>워킹맘 인생무상</p>
+                    <p>업데이트 내역: 모바일에서 이미지 다운로드가 안되어 코드 추가함.</p>
+                    <p>공부해라 초딩들.</p>
                 </div>
                 <div className={'button-area'}>
                     <button onClick={getGuGuDanProblems}
