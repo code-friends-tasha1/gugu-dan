@@ -82,7 +82,7 @@ export default function Home() {
         if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
             const newWindow = window.open();
             if (newWindow) {
-                newWindow.document.write(`<img src="${data}" />`);
+                newWindow.document.write(`<a href="${data}" download="page_capture.png">여기를 눌러 이미지를 다운로드하세요</a><br/><img src="${data}" style="width:100%;" />`);
             }
         } else {
             const link = document.createElement('a');
