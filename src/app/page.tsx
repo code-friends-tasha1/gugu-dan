@@ -54,7 +54,6 @@ const QuestionList = ({questions, startIndex}: { questions: string[]; startIndex
                     </td>
                 </tr>
             ))}
-
             </tbody>
         </table>
     )
@@ -88,6 +87,11 @@ export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div>
+                <div className={'title-area'}>
+                    <p>만든 사람: react_developer [글놀이반 화이팅]</p>
+                    <p>만든 이유: 운정초 2학년 여름방학 숙제가 구구단 외우기라서</p>
+                    <p>워킹맘 인생무상...</p>
+                </div>
                 <div className={'button-area'}>
                     <button onClick={getGuGuDanProblems}
                             className={'question-create-button'}>구구단 20문제 생성하기
@@ -101,6 +105,7 @@ export default function Home() {
                     ))}
                 </div>
             </div>
+
         </main>
     );
 }
