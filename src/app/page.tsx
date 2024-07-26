@@ -76,12 +76,20 @@ export default function Home() {
         const element = captureRef.current;
         if (!element) return;
 
-        const canvas = await html2canvas(element);
+        const canvas = await html2canvas(element, { useCORS: true });
         const data = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = data;
-        link.download = 'page_capture.png';
-        link.click();
+
+        if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+            const newWindow = window.open();
+            if (newWindow) {
+                newWindow.document.write(`<img src="${data}" />`);
+            }
+        } else {
+            const link = document.createElement('a');
+            link.href = data;
+            link.download = 'page_capture.png';
+            link.click();
+        }
     };
 
     return (
