@@ -3,31 +3,74 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 0, 0, 0;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+.question-create-button {
+    border: 1px solid green;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.question-create-button:hover {
+    opacity: 0.7;
+}
+/* styles.css */
+.gugu-item-container {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.gugu-item-container th, .gugu-item-container td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+.gugu-item-container th {
+    background-color: #f2f2f2;
+}
+
+.button-area {
+    margin-bottom: 20px;
+}
+
+.question-create-button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.gugu-container {
+    width: 1020px;
+    display: flex;
+    flex-direction: row;
+    align-items: normal;
+}
+
+.question-block {
+    font-size: 1.5rem;
 }
