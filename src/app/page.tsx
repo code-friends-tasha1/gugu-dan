@@ -123,21 +123,37 @@ export default function Home() {
     const element = captureRef.current;
     if (!element) return;
 
-    const canvas = await html2canvas(element, {useCORS: true});
-    const data = canvas.toDataURL('image/png');
+    const canvas = await html2canvas(element, { useCORS: true });
+    const dataUrl = canvas.toDataURL('image/png');
 
-    if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-      const newWindow = window.open();
-      if (newWindow) {
-        newWindow.document.write(
-          `<a href="${data}" download="page_capture.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${data}" style="width:100%;" />`
-        );
+    const blob = await (await fetch(dataUrl)).blob();
+    const file = new File([blob], 'page_capture.png', { type: 'image/png' });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: 'Page Capture',
+          text: 'Here is the image I captured from the page.',
+        });
+        console.log('Share was successful.');
+      } catch (error) {
+        console.log('Error sharing', error);
       }
     } else {
-      const link = document.createElement('a');
-      link.href = data;
-      link.download = 'page_capture.png';
-      link.click();
+      if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+        const newWindow = window.open();
+        if (newWindow) {
+          newWindow.document.write(
+            `<a href="${dataUrl}" download="page_capture.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+          );
+        }
+      } else {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'page_capture.png';
+        link.click();
+      }
     }
   };
 
