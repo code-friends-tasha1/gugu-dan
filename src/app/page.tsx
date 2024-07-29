@@ -133,8 +133,8 @@ export default function Home() {
       try {
         await navigator.share({
           files: [file],
-          title: 'Page Capture',
-          text: 'Here is the image I captured from the page.',
+          title: `구구단 20문제`,
+          text: '구구단 20문제.',
         });
         console.log('Share was successful.');
       } catch (error) {
@@ -197,18 +197,33 @@ export default function Home() {
   const downloadPDF = async (value: string, newValue: string) => {
     const response = await fetch(`/api/download?filename=${value}.pdf`);
     const blob = await response.blob();
-    const url = window.URL.createObjectURL(new Blob([blob]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', `${newValue}.pdf`);
+    const file = new File([blob], `${value}.pdf`, { type: blob.type });
 
-    // Append to the document and trigger the download
-    document.body.appendChild(link);
-    link.click();
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: `${value}.pdf`,
+          text: `${value}.pdf`,
+        });
+        console.log('공유에 성공했습니다.');
+      } catch (error) {
+        console.log('공유 오류', error);
+      }
+    } else {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${value}.pdf`);
 
-    // Remove the link from the document
-    if (link.parentNode) {
-      link.parentNode.removeChild(link);
+      // Append to the document and trigger the download
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the document
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
     }
   };
 
