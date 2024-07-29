@@ -305,7 +305,7 @@ export default function Home() {
             <div className="button-area">
               <h6 className={'dan-typography'}>복습 할 받아쓰기 선택</h6>
               <p>글씨가 지렁이인 아이를 위한 따라쓰기 PDF 다운로드 영역</p>
-              <p>이렇게 까지 만들어줬는데 글씨 개발 세발 쓰면 너무한다 너...</p>
+              <p>이렇게 까지 만들어줬는데 글씨 개발 새발 쓰면 너무한다 너...</p>
               <br/>
               <p>예시안)</p>
               <Image src={'/sample/sample-image.png'} alt={'sample-image'} width={441} height={278}/>
