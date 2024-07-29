@@ -30,6 +30,7 @@ body {
     border: 1px solid green;
     border-radius: 8px;
     padding: 5px 10px;
+    text-align: center;
 }
 
 .question-create-button:hover {
@@ -55,6 +56,7 @@ body {
 
 .button-area {
     margin-bottom: 20px;
+    width: 1020px;
 }
 
 .question-create-button {
@@ -62,10 +64,17 @@ body {
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .gugu-container {
     width: 1020px;
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+}
+
+.gugu-container .gugu-problems-container {
     display: flex;
     flex-direction: row;
     align-items: normal;
@@ -77,4 +86,66 @@ body {
 
 .title-area {
     color: #000;
+}
+
+.dan-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 1020px;
+    margin-bottom: 20px;
+}
+
+.dan-category-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px; /* 아이템들 사이에 간격 추가 */
+    flex-wrap: wrap;
+}
+
+.gugu-item input{
+    margin-right: 3px;
+}
+
+.dan-category-wrapper .gugu-item {
+    flex: 1 1 100px; /* 아이템의 기본 크기와 늘어날 수 있는 크기 설정 */
+    min-width: 100px; /* 최소 너비 설정 */
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #02c97a;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.dan-typography {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #02c97a;
+    text-align: center;
+}
+
+.dan-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dan-title-container .gugu-item {
+    flex: 1 1 100px; /* 아이템의 기본 크기와 늘어날 수 있는 크기 설정 */
+    min-width: 100px; /* 최소 너비 설정 */
+    background-color: #f4ffe7;
+    border: 1px solid #ccc;
+    color: #4e4e4e;
+    padding: 10px;
+    text-align: center;
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    border: 2px solid #c1f4e4;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
