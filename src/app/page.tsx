@@ -180,6 +180,7 @@ export default function Home() {
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
+        setLoading(true);
         await navigator.share({
           files: [file],
           title: `구구단 20문제`,
@@ -188,6 +189,8 @@ export default function Home() {
         console.log('Share was successful.');
       } catch (error) {
         console.log('Error sharing', error);
+      } finally {
+        setLoading(false);
       }
     } else {
       if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
