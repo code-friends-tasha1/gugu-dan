@@ -33,8 +33,8 @@ export default function Page() {
       try {
         await navigator.share({
           files: [file],
-          title: `${value}.pdf`,
-          text: `${value}.pdf`,
+          title: `${newValue}.pdf`,
+          text: `${newValue}.pdf`,
         });
         console.log('공유에 성공했습니다.');
       } catch (error) {

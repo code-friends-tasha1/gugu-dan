@@ -175,7 +175,7 @@ const MathPage = () => {
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
         setLoading(true);
-        alert('pc외에 핸드폰으로 다운로드시 정상적으로 다운되지 않을 수 있습니다.')
+        alert('핸드폰으로 다운로드시 정상적으로 다운되지 않을 수 있습니다.')
 
         await navigator.share({
           files: [file],
@@ -194,7 +194,7 @@ const MathPage = () => {
         const newWindow = window.open();
         if (newWindow) {
           newWindow.document.write(
-            `<a href="${dataUrl}" download="page_capture.png">이 브라우저는 다운로드를 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+            `<a href="${dataUrl}" download="page_capture.png">이 브라우저는 다운로드를 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" alt="image..."  style="width:100%;" />`
           );
         }
       } else {
