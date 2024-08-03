@@ -228,7 +228,7 @@ const MathPage = () => {
         <Text type={'secondary'}> 예를 들어, <br/><b>항 갯수가 2인경우:</b> 2+3 = 5 <br/><b>항 갯수가 3인경우:</b> 2+3+3 = 8 <br/> <b>항 갯수가 5인경우:</b> 2+2+2+2+2 = 10 </Text>
 
         <CustomDivider/>
-        <Flex wrap gap={'middle'}>
+        <Flex wrap gap={'middle'} style={{ overflowX: 'scroll' }}>
           <Tooltip trigger={['focus']} title={'최대 연산 가능 숫자 (최대 999까지 가능)'} placement="topLeft" overlayClassName="numeric-input">
             <Flex align={'center'} justify={'flex-start'}>
               <Title level={5} style={{textAlign: 'center', flex: 1}}>최대 연산 가능 숫자</Title>
