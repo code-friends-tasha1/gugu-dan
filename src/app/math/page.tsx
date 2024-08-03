@@ -166,60 +166,41 @@ const MathPage = () => {
   const handleDownloadImage = async () => {
     const element = captureRef.current;
     if (!element) return;
+    const canvas = await html2canvas(element, { useCORS: true });
+    const dataUrl = canvas.toDataURL('image/png');
 
-    setLoading(true); // 로딩 바 표시
+    const blob = await (await fetch(dataUrl)).blob();
+    const file = new File([blob], 'page_capture.png', { type: 'image/png' });
 
-    try {
-      const canvas = await html2canvas(element, {
-        useCORS: true,
-        scale: 2,
-      });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        setLoading(true);
 
-      const a4Canvas = document.createElement('canvas');
-      a4Canvas.width = 794; // 96 DPI 기준 A4 폭
-      a4Canvas.height = 1123; // 96 DPI 기준 A4 높이
-      const a4Context = a4Canvas.getContext('2d');
-
-      const originalWidth = canvas.width;
-      const originalHeight = canvas.height;
-      const ratio = Math.min(a4Canvas.width / originalWidth, a4Canvas.height / originalHeight);
-      const newWidth = originalWidth * ratio;
-      const newHeight = originalHeight * ratio;
-
-      (a4Context as any).fillStyle = 'white';
-      (a4Context as any).fillRect(0, 0, a4Canvas.width, a4Canvas.height);
-      (a4Context as any).drawImage(canvas, 0, 0, newWidth, newHeight);
-
-      const dataUrl = a4Canvas.toDataURL('image/png');
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'math.png', {type: 'image/png'});
-
-      if (navigator.canShare && navigator.canShare({files: [file]})) {
         await navigator.share({
           files: [file],
-          title: 'math 20문제',
-          text: 'math 20문제.',
+          title: '덧셈뺄셈',
+          text: '덧셈뺄셈.',
         });
+        setLoading(false);
+
         console.log('Share was successful.');
-      } else {
-        if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-          const newWindow = window.open();
-          if (newWindow) {
-            newWindow.document.write(
-              `<a href="${dataUrl}" download="math.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
-            );
-          }
-        } else {
-          const link = document.createElement('a');
-          link.href = dataUrl;
-          link.download = 'mathㄴ.png';
-          link.click();
-        }
+      } catch (error) {
+        console.log('Error sharing', error);
       }
-    } catch (error) {
-      console.error('Error capturing or sharing the image', error);
-    } finally {
-      setLoading(false); // 로딩 바 제거
+    } else {
+      if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+        const newWindow = window.open();
+        if (newWindow) {
+          newWindow.document.write(
+            `<a href="${dataUrl}" download="page_capture.png">이 브라우저는 다운로드를 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+          );
+        }
+      } else {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'page_capture.png';
+        link.click();
+      }
     }
   };
 

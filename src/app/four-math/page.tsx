@@ -160,59 +160,41 @@ const MathPage = () => {
   const handleDownloadImage = async () => {
     const element = captureRef.current;
     if (!element) return;
+    const canvas = await html2canvas(element, { useCORS: true });
+    const dataUrl = canvas.toDataURL('image/png');
 
-    setLoading(true); // 로딩 바 표시
+    const blob = await (await fetch(dataUrl)).blob();
+    const file = new File([blob], 'page_capture.png', { type: 'image/png' });
 
-    try {
-      const canvas = await html2canvas(element, {
-        useCORS: true,
-        scale: 2,
-      });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        setLoading(true);
 
-      const a4Canvas = document.createElement('canvas');
-      a4Canvas.width = 794; // 96 DPI 기준 A4 폭
-      a4Canvas.height = 1123; // 96 DPI 기준 A4 높이
-      const a4Context = a4Canvas.getContext('2d');
-
-      const originalWidth = canvas.width;
-      const originalHeight = canvas.height;
-      const ratio = Math.min(a4Canvas.width / originalWidth, a4Canvas.height / originalHeight);
-      const newWidth = originalWidth * ratio;
-      const newHeight = originalHeight * ratio;
-
-      (a4Context as any).fillStyle = 'white';
-      (a4Context as any).fillRect(0, 0, a4Canvas.width, a4Canvas.height);
-      (a4Context as any).drawImage(canvas, 0, 0, newWidth, newHeight);
-
-      const dataUrl = a4Canvas.toDataURL('image/png');
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'math.png', { type: 'image/png' });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: '수학 20문제',
-          text: '수학 20문제.',
+          title: '사칙연산',
+          text: '사칙연산.',
         });
+        setLoading(false);
+
         console.log('Share was successful.');
+      } catch (error) {
+        console.log('Error sharing', error);
+      }
+    } else {
+      if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
+        const newWindow = window.open();
+        if (newWindow) {
+          newWindow.document.write(
+            `<a href="${dataUrl}" download="page_capture.png">이 브라우저는 다운로드를 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+          );
+        }
       } else {
-        // 크롬에서 직접 다운로드 링크 제공
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = 'math.png';
-        document.body.appendChild(link);
+        link.download = 'page_capture.png';
         link.click();
-        document.body.removeChild(link);
-
-        // 팝업 차단을 방지하기 위해 setTimeout을 사용한 예
-        setTimeout(() => {
-          link.click();
-        }, 100);
       }
-    } catch (error) {
-      console.error('Error capturing or sharing the image', error);
-    } finally {
-      setLoading(false); // 로딩 바 제거
     }
   };
 
