@@ -285,7 +285,7 @@ const MathPage = () => {
             )}
           </Flex>
           <Flex>
-            <div className="gugu-container" ref={captureRef} style={{padding: '20px 20px', minWidth: '1024px'}}>
+            <div className="gugu-container" ref={captureRef} style={{padding: '20px 20px', minWidth: '1024px', overflowX: 'scroll'}}>
               <div className={'gugu-problems-container'}>
                 {problems &&
                   problems.map((chunk: ProblemsProps[], idx: number) => (

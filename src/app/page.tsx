@@ -320,7 +320,7 @@ export default function Home() {
         </Flex>
         <CustomDivider/>
         <Flex>
-          <div className="gugu-container" ref={captureRef} style={{padding: '20px 20px', minWidth: '1024px'}}>
+          <div className="gugu-container" ref={captureRef} style={{padding: '20px 20px', minWidth: '1024px', overflowX: 'scroll'}}>
             <div className={'gugu-problems-container'}>
               {questions &&
                 questions.map((chunk: GuGuDanProps[], idx: number) => (
