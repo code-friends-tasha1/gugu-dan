@@ -188,7 +188,7 @@ const MathPage = () => {
         const newWindow = window.open();
         if (newWindow) {
           newWindow.document.write(
-            `<a href="${dataUrl}" download="page_capture.png">만약 이 링크를 통해 다운로드가 되지 않는다면, 아래 이미지를 길게 누르거나 오른쪽 버튼을 클릭하여 저장하여주세요.</a><br/><img src="${dataUrl}" alt="image..." style="width:100%;" />`
+            `<a href="${dataUrl}" download="page_capture.png">[나를 눌러주세요]만약 이 링크를 통해 다운로드가 되지 않는다면, 아래 이미지를 길게 누르거나 오른쪽 버튼을 클릭하여 저장하여주세요.</a><br/><img src="${dataUrl}" alt="image..." style="width:100%;" />`
           );
         }
       } else {
