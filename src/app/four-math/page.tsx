@@ -186,13 +186,13 @@ const MathPage = () => {
 
       const dataUrl = a4Canvas.toDataURL('image/png');
       const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], '덧셈뺄셈.png', {type: 'image/png'});
+      const file = new File([blob], 'math.png', {type: 'image/png'});
 
       if (navigator.canShare && navigator.canShare({files: [file]})) {
         await navigator.share({
           files: [file],
-          title: '구구단 20문제',
-          text: '구구단 20문제.',
+          title: '수학 20문제',
+          text: '수학 20문제.',
         });
         console.log('Share was successful.');
       } else {
@@ -200,13 +200,13 @@ const MathPage = () => {
           const newWindow = window.open();
           if (newWindow) {
             newWindow.document.write(
-              `<a href="${dataUrl}" download="덧셈뺄셈.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+              `<a href="${dataUrl}" download="math.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
             );
           }
         } else {
           const link = document.createElement('a');
           link.href = dataUrl;
-          link.download = '덧셈뺄셈.png';
+          link.download = 'math.png';
           link.click();
         }
       }
