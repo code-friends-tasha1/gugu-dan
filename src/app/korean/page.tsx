@@ -66,10 +66,10 @@ export default function Page() {
         <CustomDivider><Title level={5}>복습 할 받아쓰기 선택</Title></CustomDivider>
         <Text type="secondary">- 글씨가 지렁이인 아이를 위한 따라쓰기 PDF 다운로드 영역</Text>
         <Text type="secondary">- 이렇게 까지 만들어줬는데 글씨 개발 새발 쓰면 너무한다 너...</Text>
-        <div className="button-area">
+        <Flex vertical>
           <br/>
           <Title level={5}> PDF 파일 예시안</Title>
-          <Flex vertical justify={'center'} align={'center'}>
+          <Flex vertical justify={'flex-start'} align={'flex-start'}>
             <Image src={'/sample/sample-image.png'} alt={'sample-image'} width={441} height={278}/>
           </Flex>
           <Flex wrap gap={'small'} style={{padding: '10px 10px'}} align={'center'}>
@@ -83,7 +83,7 @@ export default function Page() {
               })
             }
           </Flex>
-        </div>
+        </Flex>
       </Flex>
     </Card>
   );
