@@ -54,6 +54,7 @@ const HeaderCustomCheckbox = styled(Checkbox)`
         width: 20px;
         height: 20px;
     }
+
     .ant-checkbox-checked.ant-checkbox-inner::after {
         width: 20px;
         height: 20px;
@@ -171,33 +172,36 @@ export default function Home() {
   const handleDownloadImage = async () => {
     const element = captureRef.current;
     if (!element) return;
-
-    const canvas = await html2canvas(element, { useCORS: true });
+    const canvas = await html2canvas(element, {useCORS: true});
     const dataUrl = canvas.toDataURL('image/png');
 
     const blob = await (await fetch(dataUrl)).blob();
-    const file = new File([blob], 'page_capture.png', { type: 'image/png' });
+    const file = new File([blob], 'page_capture.png', {type: 'image/png'});
 
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    if (navigator.canShare && navigator.canShare({files: [file]})) {
       try {
         setLoading(true);
+        alert('pc외에 핸드폰으로 다운로드시 정상적으로 다운되지 않을 수 있습니다.')
+
         await navigator.share({
           files: [file],
-          title: `구구단 20문제`,
-          text: '구구단 20문제.',
+          title: '구구단',
+          text: '구구단',
         });
+
         console.log('Share was successful.');
       } catch (error) {
         console.log('Error sharing', error);
       } finally {
         setLoading(false);
+
       }
     } else {
       if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
         const newWindow = window.open();
         if (newWindow) {
           newWindow.document.write(
-            `<a href="${dataUrl}" download="page_capture.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+            `<a href="${dataUrl}" download="page_capture.png">이 브라우저는 다운로드를 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
           );
         }
       } else {
@@ -277,7 +281,10 @@ export default function Home() {
                 value={`${item}`}
                 onChange={handleCheckboxChange}
                 id={`${item}dan`}
-                style={{color: selectedItems.includes(item) ? '#ffab3e' : '#8c8c8c', fontWeight: selectedItems.includes(item) ? 'bold' : 'normal'}}
+                style={{
+                  color: selectedItems.includes(item) ? '#ffab3e' : '#8c8c8c',
+                  fontWeight: selectedItems.includes(item) ? 'bold' : 'normal'
+                }}
                 checked={selectedItems.includes(item)}
               >{item}단</CustomCheckbox>
             ))}
@@ -301,7 +308,8 @@ export default function Home() {
         </Flex>
         <CustomDivider/>
         <Flex>
-          <div className="gugu-container" ref={captureRef} style={{padding: '20px 20px', minWidth: '1024px', overflowX: 'scroll'}}>
+          <div className="gugu-container" ref={captureRef}
+               style={{padding: '20px 20px', minWidth: '1024px', overflowX: 'scroll'}}>
             <div className={'gugu-problems-container'}>
               {questions &&
                 questions.map((chunk: GuGuDanProps[], idx: number) => (

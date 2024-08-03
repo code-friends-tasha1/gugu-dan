@@ -169,17 +169,19 @@ const MathPage = () => {
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
         setLoading(true);
-
+        alert('pc외에 핸드폰으로 다운로드시 정상적으로 다운되지 않을 수 있습니다.')
         await navigator.share({
           files: [file],
           title: '사칙연산',
           text: '사칙연산',
         });
-        setLoading(false);
 
         console.log('Share was successful.');
       } catch (error) {
         console.log('Error sharing', error);
+      } finally {
+        setLoading(false);
+
       }
     } else {
       if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
