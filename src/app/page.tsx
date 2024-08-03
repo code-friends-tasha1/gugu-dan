@@ -237,10 +237,11 @@ export default function Home() {
           <ul>
             <li> - 2024.07.23 모바일에서 이미지 다운로드가 안되어 코드 추가함.</li>
             <li> - 2024.07.29 단 선택 기능 추가, 19단까지 확장, 답안지 추가</li>
+            <li> - 2024.08.03 받아쓰기 따라 쓰기 선 선명한 색으로 변경 저장.</li>
           </ul>
         </div>
         <div className={'tab-wrapper'}>
-          <button
+        <button
             className={`area-tab-button ${currentTab === 'math' ? 'active' : ''}`}
             onClick={changeTab}
           >수학 영역
