@@ -186,9 +186,9 @@ const MathPage = () => {
 
       const dataUrl = a4Canvas.toDataURL('image/png');
       const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'math.png', {type: 'image/png'});
+      const file = new File([blob], 'math.png', { type: 'image/png' });
 
-      if (navigator.canShare && navigator.canShare({files: [file]})) {
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
           title: '수학 20문제',
@@ -196,19 +196,18 @@ const MathPage = () => {
         });
         console.log('Share was successful.');
       } else {
-        if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-          const newWindow = window.open();
-          if (newWindow) {
-            newWindow.document.write(
-              `<a href="${dataUrl}" download="math.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
-            );
-          }
-        } else {
-          const link = document.createElement('a');
-          link.href = dataUrl;
-          link.download = 'math.png';
+        // 크롬에서 직접 다운로드 링크 제공
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'math.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // 팝업 차단을 방지하기 위해 setTimeout을 사용한 예
+        setTimeout(() => {
           link.click();
-        }
+        }, 100);
       }
     } catch (error) {
       console.error('Error capturing or sharing the image', error);
