@@ -32,8 +32,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+    <head>
+      <meta name='description' content='공부하자'/>
+      <meta name='viewport' content='width=device-width, initial-scale=1'/>
+      <meta charSet='UTF-8'/>
+      <title>공부하자</title>
+    </head>
     <body className={inter.className}>
-    <GlobalStyle />
+    <GlobalStyle/>
     <ThemeProvider theme={theme}>
       <MainLayout>{children}</MainLayout>
     </ThemeProvider>
