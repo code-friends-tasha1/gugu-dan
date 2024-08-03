@@ -168,104 +168,81 @@ export default function Home() {
     setQuestions(result);
   };
 
-  // const handleDownloadImage = async () => {
-  //   const element = captureRef.current;
-  //   if (!element) return;
-  //
-  //   setLoading(true); // 로딩 바 표시
-  //
-  //   try {
-  //     const canvas = await html2canvas(element, {
-  //       useCORS: true,
-  //       scale: 2,
-  //     });
-  //
-  //     const a4Canvas = document.createElement('canvas');
-  //     a4Canvas.width = 794; // 96 DPI 기준 A4 폭
-  //     a4Canvas.height = 1123; // 96 DPI 기준 A4 높이
-  //     const a4Context = a4Canvas.getContext('2d');
-  //
-  //     const originalWidth = canvas.width;
-  //     const originalHeight = canvas.height;
-  //     const ratio = Math.min(a4Canvas.width / originalWidth, a4Canvas.height / originalHeight);
-  //     const newWidth = originalWidth * ratio;
-  //     const newHeight = originalHeight * ratio;
-  //
-  //     (a4Context as any).fillStyle = 'white';
-  //     (a4Context as any).fillRect(0, 0, a4Canvas.width, a4Canvas.height);
-  //     (a4Context as any).drawImage(canvas, 0, 0, newWidth, newHeight);
-  //
-  //     const dataUrl = a4Canvas.toDataURL('image/png');
-  //     const blob = await (await fetch(dataUrl)).blob();
-  //     const file = new File([blob], 'gugudan.png', {type: 'image/png'});
-  //
-  //     if (navigator.canShare && navigator.canShare({files: [file]})) {
-  //       await navigator.share({
-  //         files: [file],
-  //         title: '구구단 20문제',
-  //         text: '구구단 20문제.',
-  //       });
-  //       console.log('Share was successful.');
-  //     } else {
-  //       if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-  //         const newWindow = window.open();
-  //         if (newWindow) {
-  //           newWindow.document.write(
-  //             `<a href="${dataUrl}" download="gugudan.png">https 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
-  //           );
-  //         }
-  //       } else {
-  //         const link = document.createElement('a');
-  //         link.href = dataUrl;
-  //         link.download = 'gugudan.png';
-  //         link.click();
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error capturing or sharing the image', error);
-  //   } finally {
-  //     setLoading(false); // 로딩 바 제거
-  //   }
-  // };
-
   const handleDownloadImage = async () => {
+    if (typeof window === 'undefined') return; // Ensure the code runs only in the client-side environment
+
     const element = captureRef.current;
     if (!element) return;
-    const canvas = await html2canvas(element, { useCORS: true });
-    const dataUrl = canvas.toDataURL('image/png');
 
-    const blob = await (await fetch(dataUrl)).blob();
-    const file = new File([blob], 'page_capture.png', { type: 'image/png' });
+    try {
+      setLoading(true); // Show loading indicator
 
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      try {
-        setLoading(true);
+      // Convert HTML element to canvas
+      const canvas = await html2canvas(element, { useCORS: true });
 
-        await navigator.share({
-          files: [file],
-          title: '구구단',
-          text: '구구단.',
-        });
-        setLoading(false);
+      // Create an A4-sized canvas
+      const a4Canvas = document.createElement('canvas');
+      const a4Width = 794; // A4 width in pixels at 96 DPI
+      const a4Height = 1123; // A4 height in pixels at 96 DPI
+      a4Canvas.width = a4Width;
+      a4Canvas.height = a4Height;
+      const a4Context = a4Canvas.getContext('2d');
 
-        console.log('Share was successful.');
-      } catch (error) {
-        console.log('Error sharing', error);
+      if (!a4Context) {
+        throw new Error('Failed to get 2D context');
       }
-    } else {
-      if (navigator.userAgent.match(/iPhone|iPad|iPod|Android/i)) {
-        const newWindow = window.open();
-        if (newWindow) {
-          newWindow.document.write(
-            `<a href="${dataUrl}" download="page_capture.png">이 브라우저는 다운로드를 지원을 하지 않아 다운로드가 원할하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
-          );
+
+      const originalWidth = canvas.width;
+      const originalHeight = canvas.height;
+      const ratio = Math.min(a4Width / originalWidth, a4Height / originalHeight);
+      const newWidth = originalWidth * ratio;
+      const newHeight = originalHeight * ratio;
+
+      a4Context.fillStyle = 'white';
+      a4Context.fillRect(0, 0, a4Canvas.width, a4Canvas.height);
+      a4Context.drawImage(canvas, 0, 0, newWidth, newHeight);
+
+      const dataUrl = a4Canvas.toDataURL('image/png');
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], 'page_capture.png', { type: 'image/png' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'Page Capture',
+            text: 'Here is the image I captured from the page.',
+          });
+          console.log('Share was successful.');
+        } catch (error) {
+          console.error('Error sharing', error);
         }
       } else {
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = 'page_capture.png';
-        link.click();
+        const userAgent = navigator.userAgent || navigator.vendor;
+
+        if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
+          const newWindow = window.open();
+          if (newWindow) {
+            newWindow.document.write(
+              `<a href="${dataUrl}" download="page_capture.png">https 지원을 하지 않아 다운로드가 원활하지 않습니다. 이미지를 길게 눌러 파일로 저장하세요.</a><br/><img src="${dataUrl}" style="width:100%;" />`
+            );
+          } else {
+            console.error('Failed to open new window');
+          }
+        } else {
+          // Create and click download link
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = 'page_capture.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
       }
+    } catch (error) {
+      console.error('Error capturing or sharing the image', error);
+    } finally {
+      setLoading(false); // Hide loading indicator
     }
   };
 
