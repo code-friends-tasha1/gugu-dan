@@ -19,6 +19,9 @@ const pdfList = [{title: '1급', fileName: '1_korean', newFileName: '1급_복습
   {title: '6급', fileName: '6_korean', newFileName: '6급_복습표'},
   {title: '7급', fileName: '7_korean', newFileName: '7급_복습표'},
   {title: '8급', fileName: '8_korean', newFileName: '8급_복습표'},
+];
+
+const pdfList2 = [
   {title: '2학기_2급_복습표', fileName: '2_2korean', newFileName: '2학기_2급_복습표'},
   {title: '2학기_3급_복습표', fileName: '2_3korean', newFileName: '2학기_3급_복습표'},
   {title: '2학기_4급_복습표', fileName: '2_4korean', newFileName: '2학기_4급_복습표'},
@@ -26,10 +29,7 @@ const pdfList = [{title: '1급', fileName: '1_korean', newFileName: '1급_복습
   {title: '2학기_6급_복습표', fileName: '2_6korean', newFileName: '2학기_6급_복습표'},
   {title: '2학기_7급_복습표', fileName: '2_7korean', newFileName: '2학기_7급_복습표'},
   {title: '2학기_8급_복습표', fileName: '2_8korean', newFileName: '2학기_8급_복습표'},
-
-
-
-];
+]
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
@@ -83,6 +83,7 @@ export default function Page() {
           <Flex vertical justify={'flex-start'} align={'flex-start'}>
             <Image src={'/sample/sample-image.png'} alt={'sample-image'} width={441} height={278}/>
           </Flex>
+          <CustomDivider><Title level={5}>2학년 1학기</Title></CustomDivider>
           <Flex wrap gap={'small'} style={{padding: '10px 10px'}} align={'center'}>
             {pdfList &&
               pdfList.map((item, idx) => {
@@ -92,6 +93,19 @@ export default function Page() {
                   {item.title}따라쓰기.pdf
                 </Button>
               })
+            }
+          </Flex>
+          <br/>
+          <CustomDivider><Title level={5}>2학년 2학기</Title></CustomDivider>
+          <Flex wrap gap={'small'} style={{padding: '10px 10px'}} align={'center'}>
+            {pdfList2 &&
+                pdfList2.map((item, idx) => {
+                  return <Button
+                      key={`korea-${idx}`}
+                      onClick={() => downloadPDF(item.fileName, item.newFileName)}>
+                    {item.title}따라쓰기.pdf
+                  </Button>
+                })
             }
           </Flex>
         </Flex>
