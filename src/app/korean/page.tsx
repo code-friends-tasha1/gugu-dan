@@ -18,7 +18,18 @@ const pdfList = [{title: '1급', fileName: '1_korean', newFileName: '1급_복습
   {title: '5급', fileName: '5_korean', newFileName: '5급_복습표'},
   {title: '6급', fileName: '6_korean', newFileName: '6급_복습표'},
   {title: '7급', fileName: '7_korean', newFileName: '7급_복습표'},
-  {title: '8급', fileName: '8_korean', newFileName: '8급_복습표'}];
+  {title: '8급', fileName: '8_korean', newFileName: '8급_복습표'},
+  {title: '2학기_2급_복습표', fileName: '2_2korean', newFileName: '2학기_2급_복습표'},
+  {title: '2학기_3급_복습표', fileName: '2_3korean', newFileName: '2학기_3급_복습표'},
+  {title: '2학기_4급_복습표', fileName: '2_4korean', newFileName: '2학기_4급_복습표'},
+  {title: '2학기_5급_복습표', fileName: '2_5korean', newFileName: '2학기_5급_복습표'},
+  {title: '2학기_6급_복습표', fileName: '2_6korean', newFileName: '2학기_6급_복습표'},
+  {title: '2학기_7급_복습표', fileName: '2_7korean', newFileName: '2학기_7급_복습표'},
+  {title: '2학기_8급_복습표', fileName: '2_8korean', newFileName: '2학기_8급_복습표'},
+
+
+
+];
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
